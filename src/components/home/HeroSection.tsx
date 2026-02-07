@@ -34,10 +34,10 @@ export default function HeroSection() {
                     </FadeIn>
 
                     <FadeIn delay={0.4} className="flex flex-col sm:flex-row gap-4">
-                        <Button href="/products" icon variant="primary" className="bg-emerald-500 hover:bg-emerald-600 text-white border-none">
+                        <Button href="/products" icon variant="white" className="shadow-emerald-900/20 shadow-xl border-none">
                             Explore Products
                         </Button>
-                        <Button href="/contact" variant="outline" className="text-emerald-200 border-emerald-700 hover:bg-emerald-900/50 hover:text-white">
+                        <Button href="/contact" variant="outline" className="border-emerald-500/30 text-emerald-100 hover:bg-emerald-800/30 hover:border-emerald-400 hover:text-white backdrop-blur-md">
                             Contact Us
                         </Button>
                     </FadeIn>

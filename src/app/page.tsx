@@ -2,6 +2,7 @@ import HeroSection from "@/components/home/HeroSection";
 import CategorySection from "@/components/home/CategorySection";
 import ProductShowcase from "@/components/home/ProductShowcase";
 import BrandScroller from "@/components/home/BrandScroller";
+import AboutSection from "@/components/home/AboutSection";
 import Counter from "@/components/ui/Counter";
 import { Metadata } from "next";
 
@@ -37,24 +38,27 @@ export default function Home() {
       />
       <HeroSection />
 
+      {/* About Section */}
+      <AboutSection />
+
       {/* Stats Section */}
-      <section className="py-12 bg-white border-b">
-        <div className="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div className="p-4">
+      <section className="py-20 bg-slate-900 text-white">
+        <div className="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+          <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition">
             <Counter value={30} label="+" />
-            <p className="text-gray-500 mt-2 font-medium">Years Experience</p>
+            <p className="text-slate-400 mt-2 font-medium">Years Experience</p>
           </div>
-          <div className="p-4">
+          <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition">
             <Counter value={500} label="+" />
-            <p className="text-gray-500 mt-2 font-medium">Products</p>
+            <p className="text-slate-400 mt-2 font-medium">Products</p>
           </div>
-          <div className="p-4">
+          <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition">
             <Counter value={90} label="+" />
-            <p className="text-gray-500 mt-2 font-medium">Happy Clients</p>
+            <p className="text-slate-400 mt-2 font-medium">Happy Clients</p>
           </div>
-          <div className="p-4">
+          <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition">
             <Counter value={100} label="%" />
-            <p className="text-gray-500 mt-2 font-medium">Quality Assured</p>
+            <p className="text-slate-400 mt-2 font-medium">Quality Assured</p>
           </div>
         </div>
       </section>

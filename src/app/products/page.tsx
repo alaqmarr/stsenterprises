@@ -4,6 +4,8 @@ import { ArrowRight, Search, SlidersHorizontal, Eye, MessageCircle } from "lucid
 import FadeIn from "@/components/ui/FadeIn";
 import Button from "@/components/ui/Button";
 
+import ProductFilterSheet from "@/components/products/ProductFilterSheet";
+
 export const dynamic = "force-dynamic";
 
 export default async function ProductsPage({
@@ -33,7 +35,7 @@ export default async function ProductsPage({
     const brands = await db.brand.findMany({ orderBy: { name: "asc" } });
 
     return (
-        <main className="min-h-screen pt-24 pb-12 bg-slate-50">
+        <main className="min-h-screen pt-24 pb-20 bg-slate-50">
             <div className="container mx-auto px-6">
                 {/* Header with Search */}
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
@@ -55,10 +57,18 @@ export default async function ProductsPage({
                     </FadeIn>
                 </div>
 
-                <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Sidebar Filters */}
-                    <FadeIn delay={0.2} className="w-full lg:w-64 flex-shrink-0 space-y-8">
-                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 lg:sticky lg:top-24">
+                {/* Mobile Filter Sheet */}
+                <ProductFilterSheet
+                    categories={categories}
+                    brands={brands}
+                    currentCategory={category}
+                    currentBrand={brand}
+                />
+
+                <div className="flex flex-col lg:flex-row gap-10">
+                    {/* Sidebar Filters (Desktop Only) */}
+                    <FadeIn delay={0.2} className="hidden lg:block w-64 flex-shrink-0 space-y-8">
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 sticky top-24">
                             <div className="flex items-center gap-2 mb-6 text-slate-800 font-bold text-lg font-outfit">
                                 <SlidersHorizontal size={20} /> Filters
                             </div>
