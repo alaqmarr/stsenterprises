@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+export const preferredRegion = ['sin1']
 
 export const metadata: Metadata = {
   title: {
