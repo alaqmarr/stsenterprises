@@ -89,6 +89,23 @@ export async function DELETE(req: Request) {
   if (!session)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+  if (req.method === "DELETE") {
+    try {
+      // Check for bulk delete in body first
+      const body = await req.json().catch(() => null);
+      if (body && body.ids && Array.isArray(body.ids)) {
+        await db.product.deleteMany({
+          where: {
+            id: { in: body.ids },
+          },
+        });
+        return NextResponse.json({ success: true });
+      }
+    } catch (e) {
+      // fallback
+    }
+  }
+
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
 
