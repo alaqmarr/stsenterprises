@@ -12,7 +12,6 @@ interface UserType {
     name: string;
     email: string;
     role: string;
-    createdAt: string;
 }
 
 export default function AdminUsersPage() {
@@ -75,17 +74,16 @@ export default function AdminUsersPage() {
                                 <th className="px-6 py-4 font-semibold text-slate-700">Name</th>
                                 <th className="px-6 py-4 font-semibold text-slate-700">Email</th>
                                 <th className="px-6 py-4 font-semibold text-slate-700">Role</th>
-                                <th className="px-6 py-4 font-semibold text-slate-700">Joined</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
                             {loading ? (
                                 <tr>
-                                    <td colSpan={4} className="px-6 py-8 text-center text-slate-500">Loading users...</td>
+                                    <td colSpan={3} className="px-6 py-8 text-center text-slate-500">Loading users...</td>
                                 </tr>
                             ) : filteredUsers.length === 0 ? (
                                 <tr>
-                                    <td colSpan={4} className="px-6 py-8 text-center text-slate-500">No users found.</td>
+                                    <td colSpan={3} className="px-6 py-8 text-center text-slate-500">No users found.</td>
                                 </tr>
                             ) : (
                                 filteredUsers.map((user) => (
@@ -106,15 +104,12 @@ export default function AdminUsersPage() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${user.role === 'ADMIN'
-                                                    ? 'bg-purple-100 text-purple-700'
-                                                    : 'bg-emerald-100 text-emerald-700'
+                                                ? 'bg-purple-100 text-purple-700'
+                                                : 'bg-emerald-100 text-emerald-700'
                                                 }`}>
                                                 <Shield size={12} />
                                                 {user.role}
                                             </span>
-                                        </td>
-                                        <td className="px-6 py-4 text-slate-500 text-sm">
-                                            {new Date(user.createdAt).toLocaleDateString()}
                                         </td>
                                     </tr>
                                 ))

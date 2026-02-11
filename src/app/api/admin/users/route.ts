@@ -15,9 +15,8 @@ export async function GET() {
         email: true,
         name: true,
         role: true,
-        createdAt: true,
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: { name: "asc" },
     });
 
     return NextResponse.json(users);
