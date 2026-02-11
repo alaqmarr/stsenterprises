@@ -18,6 +18,12 @@ export default async function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
                     {/* Company Info */}
                     <div className="space-y-6">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-12 h-12 bg-white rounded-lg p-1 shadow-sm overflow-hidden">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src="/logo.jpeg" alt="STS Logo" className="w-full h-full object-contain" />
+                            </div>
+                        </div>
                         <h3 className="text-2xl font-bold font-outfit tracking-tight">
                             {config?.companyName || "STS Enterprises"}
                         </h3>

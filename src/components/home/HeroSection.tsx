@@ -55,7 +55,7 @@ export default function HeroSection() {
                                 {/* Placeholder for high-quality Hero Image */}
                                 <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center text-slate-500">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src="https://images.unsplash.com/photo-1617720366916-09e8fda34af8?auto=format&fit=crop&q=80" alt="Safety Gloves" className="w-full h-full object-cover opacity-80" />
+                                    <img src="/shop.webp" alt="STS Enterprises Shop" className="w-full h-full object-cover opacity-90" />
                                 </div>
                             </div>
 

@@ -10,7 +10,8 @@ import {
     MessageSquare,
     Settings,
     LogOut,
-    Upload
+    Upload,
+    Users
 } from "lucide-react";
 
 export default async function AdminLayout({
@@ -30,6 +31,7 @@ export default async function AdminLayout({
         { href: "/admin/brands", label: "Brands", icon: Tags },
         { href: "/admin/categories", label: "Categories", icon: Layers },
         { href: "/admin/messages", label: "Messages", icon: MessageSquare },
+        { href: "/admin/users", label: "Users", icon: Users },
         { href: "/admin/import", label: "Import Data", icon: Upload }, // Added Import Link
         { href: "/admin/settings", label: "Settings", icon: Settings },
     ];
@@ -38,8 +40,12 @@ export default async function AdminLayout({
         <div className="min-h-screen bg-slate-50 flex font-inter">
             {/* Sidebar */}
             <aside className="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col border-r border-slate-800">
-                <div className="p-6 border-b border-slate-800">
-                    <h1 className="text-2xl font-bold font-outfit tracking-tight">STS <span className="text-emerald-500">Admin</span></h1>
+                <div className="p-6 border-b border-slate-800 flex items-center gap-3">
+                    <div className="w-8 h-8 bg-white rounded-md p-0.5 overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src="/logo.jpeg" alt="STS Logo" className="w-full h-full object-contain" />
+                    </div>
+                    <h1 className="text-xl font-bold font-outfit tracking-tight">STS <span className="text-emerald-500">Admin</span></h1>
                 </div>
 
                 <nav className="flex-1 mt-6 px-4 space-y-1">

@@ -75,14 +75,16 @@ export default function AboutSection() {
                             <div className="absolute inset-0 bg-slate-200 rounded-3xl -rotate-6 scale-95 opacity-50"></div>
                             <div className="absolute inset-0 bg-slate-100 rounded-3xl rotate-3 scale-95 opacity-80"></div>
                             <div className="relative w-full h-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 flex items-center justify-center group">
-                                {/* Placeholder for a nice about image - using a pattern or abstract for now if no image available */}
-                                <div className="absolute inset-0 bg-emerald-900/5 pattern-grid-lg opacity-20"></div>
-                                <div className="text-center p-10">
-                                    <div className="w-32 h-32 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 text-emerald-600">
-                                        <ShieldCheck size={64} />
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src="/shop.webp" alt="STS Enterprises" className="w-full h-full object-cover transition duration-700 group-hover:scale-105" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60"></div>
+                                <div className="absolute bottom-8 left-8 text-white">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <ShieldCheck size={24} className="text-emerald-400" />
+                                        <span className="font-bold tracking-wider uppercase text-sm">Est. 1995</span>
                                     </div>
-                                    <h3 className="text-2xl font-bold text-slate-900 mb-2">Safety First</h3>
-                                    <p className="text-slate-500">Protecting lives since 1995</p>
+                                    <h3 className="text-2xl font-bold font-outfit">STS Enterprises</h3>
+                                    <p className="text-slate-200 text-sm">Your Safety, Our Priority</p>
                                 </div>
                             </div>
                         </FadeIn>

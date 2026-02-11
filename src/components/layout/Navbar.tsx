@@ -51,8 +51,13 @@ export default function Navbar() {
                     <div className="flex justify-between items-center">
                         {/* Logo */}
                         <Link href="/" className="group flex items-center gap-2">
-                            <div className={clsx("w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl transition-colors duration-300", useDarkStyle ? "bg-emerald-600 text-white shadow-emerald-200 shadow-lg" : "bg-white/20 text-white backdrop-blur-md border border-white/30")}>
-                                S
+                            <div className="relative w-12 h-12 overflow-hidden rounded-lg bg-white shadow-sm border border-slate-100">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    src="/logo.jpeg"
+                                    alt="STS Logo"
+                                    className="w-full h-full object-contain"
+                                />
                             </div>
                             <div className="flex flex-col">
                                 <span className={clsx("text-xl font-bold font-outfit leading-none tracking-tight", useDarkStyle ? "text-slate-900" : "text-white")}>
