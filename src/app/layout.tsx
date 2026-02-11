@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import PublicPageWrapper from "@/components/layout/PublicPageWrapper";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
@@ -78,7 +79,9 @@ export default function RootLayout({
       <body className={`${inter.variable} ${outfit.variable} font-sans antialiased bg-gray-50`}>
         <Navbar />
         {children}
-        <Footer />
+        <PublicPageWrapper>
+          <Footer />
+        </PublicPageWrapper>
         <Toaster position="bottom-right" />
       </body>
     </html>

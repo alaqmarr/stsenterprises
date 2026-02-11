@@ -15,6 +15,9 @@ export default function Navbar() {
 
     // Check if we are on the home page
     const isHome = pathname === "/";
+    const isAdmin = pathname.startsWith("/admin") || pathname.startsWith("/api/auth"); // Also hide on auth pages if needed, but mainly admin
+
+    if (isAdmin) return null;
 
     useEffect(() => {
         const handleScroll = () => {
