@@ -29,6 +29,8 @@ const jsonLd = {
     "https://instagram.com/stsenterprises"
   ]
 };
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   return (
     <main className="min-h-screen">
@@ -38,34 +40,14 @@ export default function Home() {
       />
       <HeroSection />
 
+
+      {/* Brand Scroller (Trusted Distributions) */}
+      <BrandScroller />
       {/* About Section */}
       <AboutSection />
 
-      {/* Stats Section */}
-      <section className="py-20 bg-slate-900 text-white">
-        <div className="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-          <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition">
-            <Counter value={30} label="+" />
-            <p className="text-slate-400 mt-2 font-medium">Years Experience</p>
-          </div>
-          <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition">
-            <Counter value={500} label="+" />
-            <p className="text-slate-400 mt-2 font-medium">Products</p>
-          </div>
-          <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition">
-            <Counter value={90} label="+" />
-            <p className="text-slate-400 mt-2 font-medium">Happy Clients</p>
-          </div>
-          <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition">
-            <Counter value={100} label="%" />
-            <p className="text-slate-400 mt-2 font-medium">Quality Assured</p>
-          </div>
-        </div>
-      </section>
-
       <CategorySection />
       <ProductShowcase />
-      <BrandScroller />
     </main>
   );
 }

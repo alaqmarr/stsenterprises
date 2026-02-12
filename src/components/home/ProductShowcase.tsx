@@ -54,13 +54,10 @@ export default async function ProductShowcase() {
         where: { isFeatured: true },
         take: 8,
         include: { category: true, brand: true },
+        orderBy: { updatedAt: 'desc' }
     });
 
-    const displayProducts = products.length > 0
-        ? products
-        : await db.product.findMany({ take: 8, orderBy: { createdAt: 'desc' }, include: { category: true, brand: true } });
-
-    if (displayProducts.length === 0) return null;
+    if (products.length === 0) return null;
 
     return (
         <section className="py-24 bg-white">
@@ -78,7 +75,7 @@ export default async function ProductShowcase() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {displayProducts.map((product, i) => (
+                    {products.map((product, i) => (
                         <FadeIn key={product.id} delay={i * 0.1}>
                             <ProductCard product={product} />
                         </FadeIn>

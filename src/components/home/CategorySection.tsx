@@ -28,9 +28,10 @@ export default async function CategorySection() {
                                 href={`/categories/${cat.slug}`}
                                 className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-slate-100 flex flex-col items-center justify-center text-center gap-6 h-full"
                             >
-                                <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
-                                    <Package size={32} />
-                                </div>
+                                {cat.image && (
+                                    // eslint-disable-next-line @next/next/no-img-element
+                                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                                )}
                                 <h3 className="font-semibold text-slate-800 text-lg group-hover:text-emerald-700 transition-colors">{cat.name}</h3>
                             </Link>
                         </FadeIn>

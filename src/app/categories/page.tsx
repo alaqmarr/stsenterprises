@@ -28,9 +28,12 @@ export default async function CategoriesPage() {
                             >
                                 <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-emerald-400 to-teal-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
-                                <div className="bg-emerald-50 w-20 h-20 rounded-full flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
-                                    <Package size={32} />
-                                </div>
+                                {cat.image && (
+                                    <div className="bg-emerald-50 w-24 h-24 rounded-full flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300 overflow-hidden">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                                    </div>
+                                )}
 
                                 <h3 className="text-xl font-bold text-slate-800 mb-2 font-outfit px-2">{cat.name}</h3>
                                 <p className="text-sm text-slate-500 mb-6">{cat._count.products} Products</p>

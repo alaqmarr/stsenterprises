@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
 import FadeIn from "@/components/ui/FadeIn";
 
+export const dynamic = "force-dynamic";
+
 export default async function BrandsPage() {
     const brands = await db.brand.findMany({
         orderBy: { name: "asc" },
@@ -26,7 +28,12 @@ export default async function BrandsPage() {
                                 href={`/products?brand=${brand.slug}`}
                                 className="group bg-slate-50 p-6 rounded-2xl hover:bg-white hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col items-center text-center justify-center min-h-[180px]"
                             >
-                                <ShieldCheck size={40} className="text-emerald-300 group-hover:text-emerald-600 group-hover:scale-110 transition duration-300 mb-4" />
+                                {brand.logo ? (
+                                    // eslint-disable-next-line @next/next/no-img-element
+                                    <img src={brand.logo} alt={brand.name} className="w-16 h-16 object-contain group-hover:scale-110 transition duration-300 mb-4" />
+                                ) : (
+                                    <div className="w-16 h-16 mb-4" />
+                                )}
                                 <h3 className="text-lg font-bold text-slate-800 group-hover:text-emerald-700 transition-colors font-outfit">{brand.name}</h3>
                                 <p className="text-sm text-slate-400 mt-1">{brand._count.products} Products</p>
                             </Link>
