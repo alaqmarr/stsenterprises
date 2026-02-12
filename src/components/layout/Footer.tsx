@@ -1,16 +1,19 @@
 import Link from "next/link";
 import db from "@/lib/db";
 import { Facebook, Instagram, Linkedin, Twitter, MapPin, Phone, Mail } from "lucide-react";
+import { splitContactValues, extractDigits } from "@/lib/contacts";
 
 export default async function Footer() {
-    // Parallel data fetching for config and categories
     const [config, categories] = await Promise.all([
         db.appConfig.findUnique({ where: { id: 1 } }),
         db.category.findMany({
             take: 6,
-            orderBy: { name: 'asc' } // Or order by popularity/products if available
+            orderBy: { name: 'asc' }
         })
     ]);
+
+    const phones = splitContactValues(config?.phone);
+    const emails = splitContactValues(config?.email);
 
     return (
         <footer className="bg-slate-900 text-white py-16 border-t border-slate-800">
@@ -86,22 +89,52 @@ export default async function Footer() {
                                 </div>
                                 <span className="mt-1 leading-relaxed">{config?.address || "Ranigunj-Secunderabad, Hyderabad, Telangana, India"}</span>
                             </li>
-                            <li className="flex gap-3 items-center group">
-                                <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-emerald-900/50 group-hover:text-emerald-400 transition-colors">
-                                    <Phone size={16} />
-                                </div>
-                                <a href={`tel:${config?.phone}`} className="hover:text-white transition-colors">
-                                    {config?.phone || "+91-0000000000"}
-                                </a>
-                            </li>
-                            <li className="flex gap-3 items-center group">
-                                <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-emerald-900/50 group-hover:text-emerald-400 transition-colors">
-                                    <Mail size={16} />
-                                </div>
-                                <a href={`mailto:${config?.email}`} className="hover:text-white transition-colors">
-                                    {config?.email || "info@stsenterprises.com"}
-                                </a>
-                            </li>
+
+                            {/* Multiple phone numbers */}
+                            {phones.length > 0 ? (
+                                <li className="flex gap-3 items-start group">
+                                    <div className="mt-1 p-2 bg-slate-800 rounded-lg group-hover:bg-emerald-900/50 group-hover:text-emerald-400 transition-colors">
+                                        <Phone size={16} />
+                                    </div>
+                                    <div className="flex flex-col gap-1 mt-1">
+                                        {phones.map((phone, i) => (
+                                            <a key={i} href={`tel:${extractDigits(phone)}`} className="hover:text-white transition-colors">
+                                                {phone}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </li>
+                            ) : (
+                                <li className="flex gap-3 items-center group">
+                                    <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-emerald-900/50 group-hover:text-emerald-400 transition-colors">
+                                        <Phone size={16} />
+                                    </div>
+                                    <span>+91-0000000000</span>
+                                </li>
+                            )}
+
+                            {/* Multiple emails */}
+                            {emails.length > 0 ? (
+                                <li className="flex gap-3 items-start group">
+                                    <div className="mt-1 p-2 bg-slate-800 rounded-lg group-hover:bg-emerald-900/50 group-hover:text-emerald-400 transition-colors">
+                                        <Mail size={16} />
+                                    </div>
+                                    <div className="flex flex-col gap-1 mt-1">
+                                        {emails.map((email, i) => (
+                                            <a key={i} href={`mailto:${email}`} className="hover:text-white transition-colors">
+                                                {email}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </li>
+                            ) : (
+                                <li className="flex gap-3 items-center group">
+                                    <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-emerald-900/50 group-hover:text-emerald-400 transition-colors">
+                                        <Mail size={16} />
+                                    </div>
+                                    <span>info@stsenterprises.com</span>
+                                </li>
+                            )}
                         </ul>
                     </div>
                 </div>

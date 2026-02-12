@@ -25,7 +25,7 @@ export default async function BrandsPage() {
                     {brands.map((brand, i) => (
                         <FadeIn key={brand.id} delay={i * 0.05}>
                             <Link
-                                href={`/products?brand=${brand.slug}`}
+                                href={`/brands/${brand.slug}`}
                                 className="group bg-slate-50 p-6 rounded-2xl hover:bg-white hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col items-center text-center justify-center min-h-[180px]"
                             >
                                 {brand.logo ? (

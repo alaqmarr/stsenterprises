@@ -1,27 +1,39 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import ImageUpload from "@/components/admin/ImageUpload";
-import { X } from "lucide-react";
+import { X, Zap } from "lucide-react";
 
 interface ProductFormProps {
     initialData?: any;
     categories: any[];
     brands: any[];
+    defaultCategoryId?: string;
+    defaultBrandId?: string;
+    defaultBulkMode?: boolean;
 }
 
-export default function ProductForm({ initialData, categories, brands }: ProductFormProps) {
+export default function ProductForm({
+    initialData,
+    categories,
+    brands,
+    defaultCategoryId,
+    defaultBrandId,
+    defaultBulkMode = false,
+}: ProductFormProps) {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [bulkMode, setBulkMode] = useState(defaultBulkMode);
+    const [savedCount, setSavedCount] = useState(0);
 
     const [formData, setFormData] = useState({
         id: initialData?.id || "",
         name: initialData?.name || "",
         description: initialData?.description || "",
-        categoryId: initialData?.categoryId || "",
-        brandId: initialData?.brandId || "",
+        categoryId: initialData?.categoryId || defaultCategoryId || "",
+        brandId: initialData?.brandId || defaultBrandId || "",
         images: initialData?.images || [] as string[],
         isFeatured: initialData?.isFeatured || false,
         features: initialData?.features || [] as string[]
@@ -57,9 +69,26 @@ export default function ProductForm({ initialData, categories, brands }: Product
 
             if (!res.ok) throw new Error("Failed to save");
 
-            toast.success(initialData ? "Product updated" : "Product created");
-            router.push("/admin/products");
-            router.refresh();
+            if (bulkMode && !initialData) {
+                // Bulk mode: reset form but keep category & brand
+                setSavedCount(prev => prev + 1);
+                toast.success(`Product created! (${savedCount + 1} added this session)`);
+                setFormData({
+                    id: "",
+                    name: "",
+                    description: "",
+                    categoryId: formData.categoryId,
+                    brandId: formData.brandId,
+                    images: [],
+                    isFeatured: false,
+                    features: []
+                });
+                setFeatureInput("");
+            } else {
+                toast.success(initialData ? "Product updated" : "Product created");
+                router.push("/admin/products");
+                router.refresh();
+            }
         } catch (error) {
             toast.error("Error saving product");
         } finally {
@@ -67,8 +96,37 @@ export default function ProductForm({ initialData, categories, brands }: Product
         }
     };
 
+    const isEditMode = !!initialData;
+
     return (
         <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow space-y-6">
+            {/* Bulk Mode Toggle — only show on create, not edit */}
+            {!isEditMode && (
+                <div className="flex items-center justify-between p-4 rounded-xl border border-dashed border-slate-300 bg-slate-50">
+                    <div className="flex items-center gap-3">
+                        <Zap size={20} className={bulkMode ? "text-amber-500" : "text-slate-400"} />
+                        <div>
+                            <p className="text-sm font-semibold text-slate-700">Bulk Mode</p>
+                            <p className="text-xs text-slate-500">Keep category &amp; brand selected after saving. Form resets for the next product.</p>
+                        </div>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => setBulkMode(!bulkMode)}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${bulkMode ? "bg-amber-500" : "bg-slate-300"}`}
+                    >
+                        <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${bulkMode ? "translate-x-6" : "translate-x-1"}`} />
+                    </button>
+                </div>
+            )}
+
+            {/* Saved counter in bulk mode */}
+            {bulkMode && savedCount > 0 && (
+                <div className="text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2 font-medium">
+                    ✅ {savedCount} product{savedCount > 1 ? "s" : ""} added this session
+                </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="col-span-2">
                     <label className="block text-sm font-medium text-gray-700">Name</label>
@@ -78,6 +136,7 @@ export default function ProductForm({ initialData, categories, brands }: Product
                         onChange={e => setFormData({ ...formData, name: e.target.value })}
                         className="mt-1 w-full border rounded p-2"
                         placeholder="Product Name"
+                        autoFocus={bulkMode}
                     />
                 </div>
 
@@ -162,7 +221,7 @@ export default function ProductForm({ initialData, categories, brands }: Product
             <div className="flex justify-end gap-3 pt-4">
                 <button type="button" onClick={() => router.back()} className="px-4 py-2 border rounded hover:bg-gray-50">Cancel</button>
                 <button type="submit" disabled={isLoading} className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 disabled:opacity-50">
-                    {isLoading ? "Saving..." : "Save Product"}
+                    {isLoading ? "Saving..." : bulkMode && !isEditMode ? "Save & Add Next" : "Save Product"}
                 </button>
             </div>
         </form>

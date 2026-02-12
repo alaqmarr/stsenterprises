@@ -2,6 +2,7 @@ import db from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, MessageCircle, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { getWhatsAppNumber } from "@/lib/contacts";
 import Button from "@/components/ui/Button";
 import FadeIn from "@/components/ui/FadeIn";
 import { Metadata } from "next";
@@ -68,7 +69,7 @@ export default async function ProductDetailPage({
 
     // Get config for phone number
     const config = await db.appConfig.findFirst();
-    const whatsappNumber = config?.phone?.replace(/\D/g, '') || "919876543210";
+    const whatsappNumber = getWhatsAppNumber(config?.whatsapp, config?.phone);
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Hi, I am interested in ${product.name}`;
 
     // 3. Structured Data (JSON-LD)
