@@ -15,8 +15,8 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "STS Enterprises",
-  "url": "https://stsenterprises.in",
-  "logo": "https://stsenterprises.in/logo.png",
+  "url": "https://stsenterprises.co.in",
+  "logo": "https://stsenterprises.co.in/logo.png",
   "contactPoint": {
     "@type": "ContactPoint",
     "telephone": "+91-9876543210", // Replace with real number from env/config if possible, or placeholder
