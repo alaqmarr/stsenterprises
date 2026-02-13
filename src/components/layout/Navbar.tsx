@@ -34,7 +34,7 @@ export default function Navbar() {
         { name: "Categories", href: "/categories" },
         { name: "Brands", href: "/brands" },
         { name: "Certificates", href: "/certificates" },
-        { name: "Resources", href: "/resources" },
+
         { name: "Contact", href: "/contact" },
     ];
 
