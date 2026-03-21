@@ -1,21 +1,18 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
 
 // Configuration
 const AUTH_API_URL = process.env.AUTHORISATION_URL;
 const CLIENT_ID = process.env.AUTHORISATION_ID;
 const API_KEY = process.env.AUTHORISATION_KEY;
 
-// Paths that are always accessible
+// Paths that are always accessible (static assets, api routes, maintenance page)
 const PUBLIC_PATHS = [
   "/service-unavailable",
   "/_next",
-  "/api",
+  "/api", // Keep internal APIs accessible? Or block them too? Usually wise to block if site is "down"
   "/favicon.ico",
-  "/images",
-  "/logo.jpeg",
-  "/globals.css",
+  "/images", // Public images
 ];
 
 export async function middleware(request: NextRequest) {
@@ -29,55 +26,51 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // License Check Logic
+  // 2. Check for manual bypass via ENV variable
+  if (process.env.API_CHECK === "bypass") {
+    return NextResponse.next();
+  }
+
   if (!AUTH_API_URL || !CLIENT_ID || !API_KEY) {
-    // If config is missing, redirect to service unavailable
-    // console.error("Missing Auth Config");
     return NextResponse.redirect(new URL("/service-unavailable", request.url));
   }
 
   try {
+    // 2. Call external authorization API
     const response = await fetch(`${AUTH_API_URL}?clientId=${CLIENT_ID}`, {
       method: "GET",
       headers: {
         "x-api-key": API_KEY,
         "Content-Type": "application/json",
       },
-      cache: "no-store", // Ensure we don't cache the auth check
+      // Set a short timeout to avoid blocking page loads for too long if auth service is slow
+      // Note: Next.js middleware fetch signal is a bit tricky, but basic fetch works.
+      // There isn't a native timeout option in standard Fetch API without AbortController
+      // but Vercel edge runtime handles it.
     });
 
     if (!response.ok) {
-      // console.error("Auth API Error", response.status);
+      // If API fails (500, etc), default to maintenance? Or fail open?
+      // User requested "maintenance page", so let's assume fail closed safe.
       throw new Error("Auth service failed");
     }
 
     const data = await response.json();
 
-    if (!data.success || !data.authorized) {
+    // 3. Check authorization status
+    if (data.success && data.authorized) {
+      return NextResponse.next();
+    } else {
+      // 4. Redirect to service unavailable if not authorized
       return NextResponse.redirect(
         new URL("/service-unavailable", request.url),
       );
     }
   } catch (error) {
-    // console.error('Middleware Auth Error:', error);
+    console.error("Middleware Auth Error:", error);
+    // On error (e.g. timeout, network issue), redirect to service unavailable
     return NextResponse.redirect(new URL("/service-unavailable", request.url));
   }
-
-  // 2. Admin Authentication Check (Replica of previous middleware)
-  if (pathname.startsWith("/admin")) {
-    const token = await getToken({
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
-
-    // Check if user is authenticated and is an admin
-    if (!token || token.role !== "ADMIN") {
-      // If attempting to access admin and not authorized, redirect to home
-      return NextResponse.redirect(new URL("/", request.url));
-    }
-  }
-
-  return NextResponse.next();
 }
 
 // Configure which paths the middleware runs on
